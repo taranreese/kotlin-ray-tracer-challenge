@@ -12,7 +12,7 @@ fun runGame(velocityMultiplier: Double, context: Context) {
     // Projectile starts one unit above the origin
     // Velocity is normalized to 1 unit/tick
     var p = Projectile(Point(0.0,1.0,0.0),
-        Vector(1.0,1.0,0.0) * velocityMultiplier)
+        Vector(1.0,1.8,0.0) * velocityMultiplier)
 
     // Gravity -0.1 unit/tick and wind is -0.01 unit/tick
     val e = Environment(Vector(0.0,-0.1, 0.0),

@@ -16,6 +16,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Chapter 2
-        runGame(7.0, this)
+        runGame(5.5, this)
     }
 }
