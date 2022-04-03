@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.taranreese.raytracerchallenge
 
 import com.taranreese.raytracerchallenge.model.*
