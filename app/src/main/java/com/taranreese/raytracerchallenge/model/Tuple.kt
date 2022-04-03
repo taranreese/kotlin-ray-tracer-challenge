@@ -13,6 +13,29 @@ open class Tuple(open val x: Double = 0.0,
         val sum = x.pow(2.0) + y.pow(2.0) + z.pow(2.0) + w.pow(2.0)
         return sqrt(sum)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Tuple
+
+        if (x != other.x) return false
+        if (y != other.y) return false
+        if (z != other.z) return false
+        if (w != other.w) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = x.hashCode()
+        result = 31 * result + y.hashCode()
+        result = 31 * result + z.hashCode()
+        result = 31 * result + w.hashCode()
+        return result
+    }
+
 }
 
 data class Point(

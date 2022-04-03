@@ -4,7 +4,7 @@ import com.taranreese.raytracerchallenge.model.Canvas
 import com.taranreese.raytracerchallenge.model.Color
 import com.taranreese.raytracerchallenge.model.Colors
 import com.taranreese.raytracerchallenge.output.ExportPPM
-import org.junit.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class CanvasTest {
