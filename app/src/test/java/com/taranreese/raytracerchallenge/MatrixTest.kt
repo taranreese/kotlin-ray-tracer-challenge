@@ -2,10 +2,7 @@
 
 package com.taranreese.raytracerchallenge
 
-import com.taranreese.raytracerchallenge.model.Matrix2
-import com.taranreese.raytracerchallenge.model.Matrix3
-import com.taranreese.raytracerchallenge.model.Matrix4
-import com.taranreese.raytracerchallenge.model.Tuple
+import com.taranreese.raytracerchallenge.model.*
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotSame
 import org.junit.Test
@@ -133,5 +130,94 @@ class MatrixTest {
 
         val b = Tuple(1.0, 2.0, 3.0, 1.0)
         assertEquals(a * b, Tuple(18.0, 24.0, 33.0, 1.0))
+    }
+
+    @Test
+    fun testMultiplyMatrixByIdentity() {
+        val a = Matrix4(
+            values = doubleArrayOf(
+                0.0, 1.0, 2.0, 4.0,
+                1.0, 2.0, 4.0, 8.0,
+                2.0, 4.0, 8.0, 16.0,
+                4.0, 8.0, 16.0, 32.0
+            )
+        )
+
+        assertEquals(a * identityMatrix4(), a)
+    }
+
+    @Test
+    fun testMultiplyIdentityMatrixByTuple() {
+        val a = Tuple(1.0, 2.0, 3.0, 4.0)
+        assertEquals(identityMatrix4() * a, a)
+    }
+
+    @Test
+    fun testTransposingMatrix() {
+        val a = Matrix4(values = doubleArrayOf(
+            0.0, 9.0, 3.0, 0.0,
+            9.0, 8.0, 0.0, 8.0,
+            1.0, 8.0, 5.0, 3.0,
+            0.0, 0.0, 5.0, 8.0
+        ))
+
+        val b = Matrix4(values = doubleArrayOf(
+            0.0, 9.0, 1.0, 0.0,
+            9.0, 8.0, 8.0, 0.0,
+            3.0, 0.0, 5.0, 5.0,
+            0.0, 8.0, 3.0, 8.0
+        ))
+
+        assertEquals(a.transpose(), b)
+    }
+
+    @Test
+    fun testTransposingIdentityMatrix() {
+        val a = identityMatrix4().transpose()
+        assertEquals(a, identityMatrix4())
+    }
+
+    @Test
+    fun testDeterminantOfMatrix2() {
+        val a = Matrix2(values = doubleArrayOf(
+            1.0, 5.0,
+            -3.0, 2.0
+        ))
+
+        assertEquals(a.determinant(), 17.0)
+    }
+
+    @Test
+    fun testSubmatrixOf3x3is2x2() {
+        val a = Matrix3(values = doubleArrayOf(
+            1.0, 5.0, 0.0,
+            -3.0, 2.0, 7.0,
+            0.0, 6.0, -3.0
+        ))
+
+        val b = Matrix2(values = doubleArrayOf(
+            -3.0, 2.0,
+            0.0, 6.0
+        ))
+
+        assertEquals(a.submatrix(0, 2), b)
+    }
+
+    @Test
+    fun testSubmatrixOf4x4is3x3() {
+        val a = Matrix4(values = doubleArrayOf(
+            -6.0, 1.0, 1.0, 6.0,
+            -8.0, 5.0, 8.0, 6.0,
+            -1.0, 0.0, 8.0, 2.0,
+            -7.0, 1.0, -1.0, 1.0
+        ))
+
+        val b = Matrix3(values = doubleArrayOf(
+            -6.0, 1.0, 6.0,
+            -8.0, 8.0, 6.0,
+            -7.0, -1.0, 1.0
+        ))
+
+        assertEquals(a.submatrix(2, 1), b)
     }
 }
