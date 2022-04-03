@@ -2,7 +2,7 @@ package com.taranreese.raytracerchallenge.model
 
 import org.jetbrains.bio.viktor.F64Array
 
-abstract class Matrix(private var matrix: F64Array) {
+abstract class Matrix(private var matrix: F64Array, internal val size: Int) {
     operator fun get(x: Int, y: Int): Double {
         return matrix[x, y]
     }
@@ -45,10 +45,15 @@ abstract class Matrix(private var matrix: F64Array) {
         return matrix.hashCode()
     }
 }
-class Matrix2(private var matrix: F64Array = F64Array(2, 2),
-              values: DoubleArray = doubleArrayOf(
-                  0.0, 0.0,
-                  0.0, 0.0)): Matrix(matrix = matrix) {
+
+class Matrix2(
+    private var matrix: F64Array = F64Array(2, 2),
+    size: Int = 2,
+    values: DoubleArray = doubleArrayOf(
+        0.0, 0.0,
+        0.0, 0.0
+    )
+) : Matrix(matrix = matrix, size = size) {
     init {
         assert(values.size == 4)
 
@@ -71,7 +76,7 @@ class Matrix2(private var matrix: F64Array = F64Array(2, 2),
     override fun transpose(): Matrix2 {
         val transposedMatrix = Matrix2()
 
-        for (row in 0..1) {
+        for (row in 0 until size) {
             for (column in 0..1) {
                 transposedMatrix[column, row] = matrix[row, column]
             }
@@ -82,10 +87,11 @@ class Matrix2(private var matrix: F64Array = F64Array(2, 2),
 }
 
 class Matrix3(private var matrix: F64Array = F64Array(3, 3),
+              size: Int = 3,
               values: DoubleArray = doubleArrayOf(
                   0.0, 0.0, 0.0,
                   0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0)): Matrix(matrix = matrix) {
+                  0.0, 0.0, 0.0)): Matrix(matrix = matrix, size = size) {
     init {
         assert(values.size == 9)
 
@@ -103,7 +109,7 @@ class Matrix3(private var matrix: F64Array = F64Array(3, 3),
     override fun determinant(): Double {
         var determinant = 0.0
 
-        for (column in 0..2) {
+        for (column in 0 until size) {
             determinant += matrix[0, column] * cofactor(0, column)
         }
 
@@ -113,10 +119,10 @@ class Matrix3(private var matrix: F64Array = F64Array(3, 3),
     override fun submatrix(rowToRemove: Int, columnToRemove: Int): Matrix2 {
         val newValues = arrayListOf<Double>()
 
-        for (rowIndex in 0..2) {
+        for (rowIndex in 0 until size) {
             if (rowIndex == rowToRemove) { continue }
 
-            for (columnIndex in 0..2) {
+            for (columnIndex in 0 until size) {
                 if (columnIndex == columnToRemove) { continue } else {
                     newValues.add(matrix[rowIndex, columnIndex])
                 }
@@ -129,8 +135,8 @@ class Matrix3(private var matrix: F64Array = F64Array(3, 3),
     override fun transpose(): Matrix3 {
         val transposedMatrix = Matrix3()
 
-        for (row in 0..2) {
-            for (column in 0..2) {
+        for (row in 0 until size) {
+            for (column in 0 until size) {
                 transposedMatrix[column, row] = matrix[row, column]
             }
         }
@@ -140,11 +146,12 @@ class Matrix3(private var matrix: F64Array = F64Array(3, 3),
 }
 
 class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
+              size: Int = 4,
               values: DoubleArray = doubleArrayOf(
                   0.0, 0.0, 0.0, 0.0,
                   0.0, 0.0, 0.0, 0.0,
                   0.0, 0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0, 0.0)): Matrix(matrix = matrix) {
+                  0.0, 0.0, 0.0, 0.0)): Matrix(matrix = matrix, size = size) {
     init {
         assert(values.size == 16)
 
@@ -169,7 +176,7 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
     override fun determinant(): Double {
         var determinant = 0.0
 
-        for (column in 0..3) {
+        for (column in 0 until size) {
             determinant += matrix[0, column] * cofactor(0, column)
         }
 
@@ -179,10 +186,10 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
     override fun submatrix(rowToRemove: Int, columnToRemove: Int): Matrix3 {
         val newValues = arrayListOf<Double>()
 
-        for (rowIndex in 0..3) {
+        for (rowIndex in 0 until size) {
             if (rowIndex == rowToRemove) { continue }
 
-            for (columnIndex in 0..3) {
+            for (columnIndex in 0 until size) {
                 if (columnIndex == columnToRemove) { continue } else {
                     newValues.add(matrix[rowIndex, columnIndex])
                 }
@@ -195,8 +202,8 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
     override fun transpose(): Matrix4 {
         val transposedMatrix = Matrix4()
 
-        for (row in 0..3) {
-            for (column in 0..3) {
+        for (row in 0 until size) {
+            for (column in 0 until size) {
                 transposedMatrix[column, row] = matrix[row, column]
             }
         }
@@ -206,8 +213,8 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
 
     operator fun times(otherMatrix: Matrix4): Matrix4 {
         val newMatrix = Matrix4()
-        for (rowIndex in 0..3) {
-            for (columnIndex in 0..3) {
+        for (rowIndex in 0 until size) {
+            for (columnIndex in 0 until size) {
                 newMatrix[rowIndex, columnIndex] = matrix[rowIndex, 0] * otherMatrix.matrix[0, columnIndex] +
                         matrix[rowIndex, 1] * otherMatrix.matrix[1, columnIndex] +
                         matrix[rowIndex, 2] * otherMatrix.matrix[2, columnIndex] +
@@ -220,7 +227,7 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
     operator fun times(tuple: Tuple): Tuple {
         val outputs = doubleArrayOf(0.0, 0.0, 0.0, 0.0)
 
-        for (index in 0..3) {
+        for (index in 0 until size) {
             outputs[index] = matrix[index, 0] * tuple.x +
                     matrix[index, 1] * tuple.y +
                     matrix[index, 2] * tuple.z +
