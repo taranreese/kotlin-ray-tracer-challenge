@@ -10,7 +10,7 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
         return Color(red + color.red, green + color.green, blue + color.blue)
     }
 
-    operator fun minus(color:Color): Color {
+    operator fun minus(color: Color): Color {
         return Color(red - color.red, green - color.green, blue - color.blue)
     }
 
@@ -24,5 +24,5 @@ data class Color(val red: Double, val green: Double, val blue: Double) {
 }
 
 fun hadamardProduct(c1: Color, c2: Color): Color {
-    return Color(c1.red * c2.red,c1.green * c2.green,c1.blue * c2.blue)
+    return Color(c1.red * c2.red, c1.green * c2.green, c1.blue * c2.blue)
 }

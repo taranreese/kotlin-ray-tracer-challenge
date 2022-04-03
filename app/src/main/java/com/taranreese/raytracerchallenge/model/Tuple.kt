@@ -3,10 +3,12 @@ package com.taranreese.raytracerchallenge.model
 import kotlin.math.sqrt
 import kotlin.math.pow
 
-open class Tuple(open val x: Double = 0.0,
-                 open val y: Double = 0.0,
-                 open val z: Double = 0.0,
-                 open val w: Double = 0.0) {
+open class Tuple(
+    open val x: Double = 0.0,
+    open val y: Double = 0.0,
+    open val z: Double = 0.0,
+    open val w: Double = 0.0
+) {
 
     // returns NaN for zero magnitude vectors
     fun magnitude(): Double {
@@ -43,7 +45,7 @@ data class Point(
     override val y: Double,
     override val z: Double,
     override val w: Double = 1.0
-): Tuple() {
+) : Tuple() {
 
     operator fun plus(point: Point): Point {
         return Point(x + point.x, y + point.y, z + point.z)
@@ -87,7 +89,7 @@ data class Vector(
     override val y: Double,
     override val z: Double,
     override val w: Double = 0.0
-): Tuple() {
+) : Tuple() {
 
     operator fun plus(point: Point): Point {
         return Point(x + point.x, y + point.y, z + point.z)
@@ -128,18 +130,24 @@ data class Vector(
 
 // Order of arguments matters
 fun cross(v1: Vector, v2: Vector): Vector {
-    if (v1.w != 0.0 || v2.w != 0.0) { print("Point passed to cross(), expected vector") }
+    if (v1.w != 0.0 || v2.w != 0.0) {
+        print("Point passed to cross(), expected vector")
+    }
 
-    return Vector((v1.y * v2.z) - (v1.z * v2.y),
+    return Vector(
+        (v1.y * v2.z) - (v1.z * v2.y),
         (v1.z * v2.x) - (v1.x * v2.z),
-        (v1.x * v2.y) - (v1.y * v2.x))
+        (v1.x * v2.y) - (v1.y * v2.x)
+    )
 }
 
 fun dot(v1: Vector, v2: Vector): Double {
-    if (v1.w != 0.0 || v2.w != 0.0) { print("Point passed to dot(), expected vector") }
+    if (v1.w != 0.0 || v2.w != 0.0) {
+        print("Point passed to dot(), expected vector")
+    }
 
     return (v1.x * v2.x +
             v1.y * v2.y +
             v1.z * v2.z +
-            v1.w * v2.w )
+            v1.w * v2.w)
 }

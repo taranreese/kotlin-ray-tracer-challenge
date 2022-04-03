@@ -57,10 +57,10 @@ class Matrix2(
     init {
         assert(values.size == 4)
 
-        matrix[0,0] = values[0]
-        matrix[0,1] = values[1]
-        matrix[1,0] = values[2]
-        matrix[1,1] = values[3]
+        matrix[0, 0] = values[0]
+        matrix[0, 1] = values[1]
+        matrix[1, 0] = values[2]
+        matrix[1, 1] = values[3]
     }
 
     override fun determinant(): Double {
@@ -86,24 +86,27 @@ class Matrix2(
     }
 }
 
-class Matrix3(private var matrix: F64Array = F64Array(3, 3),
-              size: Int = 3,
-              values: DoubleArray = doubleArrayOf(
-                  0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0)): Matrix(matrix = matrix, size = size) {
+class Matrix3(
+    private var matrix: F64Array = F64Array(3, 3),
+    size: Int = 3,
+    values: DoubleArray = doubleArrayOf(
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0
+    )
+) : Matrix(matrix = matrix, size = size) {
     init {
         assert(values.size == 9)
 
-        matrix[0,0] = values[0]
-        matrix[0,1] = values[1]
-        matrix[0,2] = values[2]
-        matrix[1,0] = values[3]
-        matrix[1,1] = values[4]
-        matrix[1,2] = values[5]
-        matrix[2,0] = values[6]
-        matrix[2,1] = values[7]
-        matrix[2,2] = values[8]
+        matrix[0, 0] = values[0]
+        matrix[0, 1] = values[1]
+        matrix[0, 2] = values[2]
+        matrix[1, 0] = values[3]
+        matrix[1, 1] = values[4]
+        matrix[1, 2] = values[5]
+        matrix[2, 0] = values[6]
+        matrix[2, 1] = values[7]
+        matrix[2, 2] = values[8]
     }
 
     override fun determinant(): Double {
@@ -120,10 +123,14 @@ class Matrix3(private var matrix: F64Array = F64Array(3, 3),
         val newValues = arrayListOf<Double>()
 
         for (rowIndex in 0 until size) {
-            if (rowIndex == rowToRemove) { continue }
+            if (rowIndex == rowToRemove) {
+                continue
+            }
 
             for (columnIndex in 0 until size) {
-                if (columnIndex == columnToRemove) { continue } else {
+                if (columnIndex == columnToRemove) {
+                    continue
+                } else {
                     newValues.add(matrix[rowIndex, columnIndex])
                 }
             }
@@ -145,32 +152,35 @@ class Matrix3(private var matrix: F64Array = F64Array(3, 3),
     }
 }
 
-class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
-              size: Int = 4,
-              values: DoubleArray = doubleArrayOf(
-                  0.0, 0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0, 0.0,
-                  0.0, 0.0, 0.0, 0.0)): Matrix(matrix = matrix, size = size) {
+class Matrix4(
+    internal var matrix: F64Array = F64Array(4, 4),
+    size: Int = 4,
+    values: DoubleArray = doubleArrayOf(
+        0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0
+    )
+) : Matrix(matrix = matrix, size = size) {
     init {
         assert(values.size == 16)
 
-        matrix[0,0] = values[0]
-        matrix[0,1] = values[1]
-        matrix[0,2] = values[2]
-        matrix[0,3] = values[3]
-        matrix[1,0] = values[4]
-        matrix[1,1] = values[5]
-        matrix[1,2] = values[6]
-        matrix[1,3] = values[7]
-        matrix[2,0] = values[8]
-        matrix[2,1] = values[9]
-        matrix[2,2] = values[10]
-        matrix[2,3] = values[11]
-        matrix[3,0] = values[12]
-        matrix[3,1] = values[13]
-        matrix[3,2] = values[14]
-        matrix[3,3] = values[15]
+        matrix[0, 0] = values[0]
+        matrix[0, 1] = values[1]
+        matrix[0, 2] = values[2]
+        matrix[0, 3] = values[3]
+        matrix[1, 0] = values[4]
+        matrix[1, 1] = values[5]
+        matrix[1, 2] = values[6]
+        matrix[1, 3] = values[7]
+        matrix[2, 0] = values[8]
+        matrix[2, 1] = values[9]
+        matrix[2, 2] = values[10]
+        matrix[2, 3] = values[11]
+        matrix[3, 0] = values[12]
+        matrix[3, 1] = values[13]
+        matrix[3, 2] = values[14]
+        matrix[3, 3] = values[15]
     }
 
     override fun determinant(): Double {
@@ -187,10 +197,14 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
         val newValues = arrayListOf<Double>()
 
         for (rowIndex in 0 until size) {
-            if (rowIndex == rowToRemove) { continue }
+            if (rowIndex == rowToRemove) {
+                continue
+            }
 
             for (columnIndex in 0 until size) {
-                if (columnIndex == columnToRemove) { continue } else {
+                if (columnIndex == columnToRemove) {
+                    continue
+                } else {
                     newValues.add(matrix[rowIndex, columnIndex])
                 }
             }
@@ -240,10 +254,10 @@ class Matrix4(internal var matrix: F64Array = F64Array(4, 4),
 
 fun identityMatrix4(): Matrix4 {
     val m = Matrix4()
-    m[0,0] = 1.0
-    m[1,1] = 1.0
-    m[2,2] = 1.0
-    m[3,3] = 1.0
+    m[0, 0] = 1.0
+    m[1, 1] = 1.0
+    m[2, 2] = 1.0
+    m[3, 3] = 1.0
 
     return m
 }
