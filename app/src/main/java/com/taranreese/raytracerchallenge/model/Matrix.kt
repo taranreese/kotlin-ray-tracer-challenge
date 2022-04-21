@@ -2,7 +2,7 @@ package com.taranreese.raytracerchallenge.model
 
 import org.jetbrains.bio.viktor.F64Array
 
-abstract class Matrix(private var matrix: F64Array, internal val size: Int) {
+abstract class Matrix(internal open var matrix: F64Array, internal val size: Int) {
     operator fun get(x: Int, y: Int): Double {
         return matrix[x, y]
     }
@@ -21,9 +21,13 @@ abstract class Matrix(private var matrix: F64Array, internal val size: Int) {
         return -minor
     }
 
-    private fun minor(row: Int, column: Int): Double {
+    internal fun minor(row: Int, column: Int): Double {
         val subM = submatrix(row, column)
         return subM.determinant()
+    }
+
+    internal fun isInvertible(): Boolean {
+        return this.determinant() != 0.0
     }
 
     abstract fun determinant(): Double
@@ -47,7 +51,7 @@ abstract class Matrix(private var matrix: F64Array, internal val size: Int) {
 }
 
 class Matrix2(
-    private var matrix: F64Array = F64Array(2, 2),
+    override var matrix: F64Array = F64Array(2, 2),
     size: Int = 2,
     values: DoubleArray = doubleArrayOf(
         0.0, 0.0,
@@ -87,7 +91,7 @@ class Matrix2(
 }
 
 class Matrix3(
-    private var matrix: F64Array = F64Array(3, 3),
+    override var matrix: F64Array = F64Array(3, 3),
     size: Int = 3,
     values: DoubleArray = doubleArrayOf(
         0.0, 0.0, 0.0,
@@ -153,7 +157,7 @@ class Matrix3(
 }
 
 class Matrix4(
-    internal var matrix: F64Array = F64Array(4, 4),
+    override var matrix: F64Array = F64Array(4, 4),
     size: Int = 4,
     values: DoubleArray = doubleArrayOf(
         0.0, 0.0, 0.0, 0.0,
@@ -260,4 +264,24 @@ fun identityMatrix4(): Matrix4 {
     m[3, 3] = 1.0
 
     return m
+}
+
+// Returns nil if matrix argument is not invertible
+fun inverse(matrix: Matrix): Matrix? {
+    if (!matrix.isInvertible()) { return null }
+
+    val newMatrix = when (matrix.size) {
+        3 -> { Matrix3() }
+        4 -> { Matrix4() }
+        else -> { return null }
+    }
+
+    for (rowIndex in 0 until matrix.size) {
+        for (columnIndex in 0 until matrix.size) {
+            val cofactor = matrix.cofactor(rowIndex, columnIndex)
+            newMatrix[columnIndex, rowIndex] = cofactor / matrix.determinant()
+        }
+    }
+
+    return newMatrix
 }
