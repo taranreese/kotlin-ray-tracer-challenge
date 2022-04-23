@@ -252,7 +252,11 @@ class Matrix4(
                     matrix[index, 3] * tuple.w
         }
 
-        return Tuple(outputs[0], outputs[1], outputs[2], outputs[3])
+        return when (tuple.w) {
+            0.0 -> Vector(outputs[0], outputs[1], outputs[2], outputs[3])
+            1.0 -> Point(outputs[0], outputs[1], outputs[2], outputs[3])
+            else -> Tuple(outputs[0], outputs[1], outputs[2], outputs[3])
+        }
     }
 }
 
@@ -284,4 +288,13 @@ fun inverse(matrix: Matrix): Matrix? {
     }
 
     return newMatrix
+}
+
+fun translation(x: Double, y: Double, z: Double): Matrix4 {
+    val m = identityMatrix4()
+    m[0,3] = x
+    m[1,3] = y
+    m[2,3] = z
+
+    return m
 }

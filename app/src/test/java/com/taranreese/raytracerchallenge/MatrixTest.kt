@@ -145,7 +145,11 @@ class MatrixTest {
         )
 
         val b = Tuple(1.0, 2.0, 3.0, 1.0)
-        assertEquals(a * b, Tuple(18.0, 24.0, 33.0, 1.0))
+        val actualResult = a * b
+        assertEquals(actualResult.x, 18.0)
+        assertEquals(actualResult.y, 24.0)
+        assertEquals(actualResult.z, 33.0)
+        assertEquals(actualResult.w, 1.0)
     }
 
     @Test
@@ -492,5 +496,38 @@ class MatrixTest {
             assertEquals(it[3, 2], a[3, 2], 0.00001)
             assertEquals(it[3, 3], a[3, 3], 0.00001)
         }
+    }
+    @Test
+    fun testMultiplyingByTranslationMatrix() {
+        val transform = translation(5.0, -3.0, 2.0)
+        val p = Point(-3.0, 4.0, 5.0)
+        val actualResult = transform * p
+        assertEquals(2.0, actualResult.x)
+        assertEquals(1.0, actualResult.y)
+        assertEquals(7.0, actualResult.z)
+    }
+
+    @Test
+    fun testMultiplyingByInverseOfTranslationMatrix() {
+        val transform = translation(5.0, -3.0, 2.0)
+        val inv = inverse(transform) as? Matrix4
+        assertNotNull(inv)
+        inv?.let {
+            val p = Point(-3.0, 4.0, 5.0)
+            val actualResult = it * p
+            assertEquals(actualResult.x,-8.0)
+            assertEquals(actualResult.y,7.0)
+            assertEquals(actualResult.z,3.0)
+        }
+    }
+
+    @Test
+    fun testTranslationDoesNotAffectVectors() {
+        val transform = translation(5.0, -3.0, 2.0)
+        val v = Vector(-3.0, 4.0, 5.0)
+        val actualResult = transform * v
+        assertEquals(actualResult.x, -3.0)
+        assertEquals(actualResult.y, 4.0)
+        assertEquals(actualResult.z, 5.0)
     }
 }
