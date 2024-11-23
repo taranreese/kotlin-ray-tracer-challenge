@@ -242,6 +242,10 @@ class Matrix4(
         return newMatrix
     }
 
+    fun timesTwo(firstInt: Int, secondInt: Int): Int {
+        return firstInt * secondInt
+    }
+
     operator fun times(tuple: Tuple): Tuple {
         val outputs = doubleArrayOf(0.0, 0.0, 0.0, 0.0)
 
