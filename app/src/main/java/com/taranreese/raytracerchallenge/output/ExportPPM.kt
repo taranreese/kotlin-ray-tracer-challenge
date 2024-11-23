@@ -43,7 +43,7 @@ private fun pixelColorsToString(colors: List<Color>, width: Int): String {
     colors.forEachIndexed { index, color ->
         if (index % width == 0) {
             if (unbrokenString.isNotEmpty()) {
-                unbrokenString.removeLast()
+                unbrokenString.removeLastOrNull()
             }
 
             if (index != 0) {
@@ -57,7 +57,7 @@ private fun pixelColorsToString(colors: List<Color>, width: Int): String {
     }
 
     // remove trailing space from last entry
-    unbrokenString.removeLast()
+    unbrokenString.removeLastOrNull()
 
     // return string with line breaks
     return unbrokenString.joinToString("") + '\n'
